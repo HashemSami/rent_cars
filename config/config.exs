@@ -9,7 +9,7 @@ import Config
 
 config :rent_cars,
   ecto_repos: [RentCars.Repo],
-  generators: [timestamp_type: :utc_datetime]
+  generators: [timestamp_type: :utc_datetime, binary_id: true]
 
 # Configures the endpoint
 config :rent_cars, RentCarsWeb.Endpoint,

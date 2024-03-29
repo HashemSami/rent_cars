@@ -1,15 +1,8 @@
 defmodule RentCarsWeb.CategoryController do
   use RentCarsWeb, :controller
+  alias RentCars.Categories
 
   def home(conn, _params) do
-    categories = [
-      %{
-        "description" => "pumpkin 123",
-        "id" => "123123",
-        "name" => "SPORT"
-      }
-    ]
-
-    render(conn, :category_home, categories: categories)
+    render(conn, :category_home, categories: Categories.list_categories())
   end
 end

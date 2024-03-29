@@ -1,12 +1,7 @@
-<div :for={{_key, category} <- @categories}>
+<div :for={%{"description" => description} <- @categories}>
   <h2>
     testing
   </h2>
-   <%= inspect(category) %>
+   <%= description %>
 </div>
  <%= inspect(@categories) %>
-<%= for {_key, category} <- @categories do %>
-  <h2>
-    testing <%= category %>
-  </h2>
-<% end %>
