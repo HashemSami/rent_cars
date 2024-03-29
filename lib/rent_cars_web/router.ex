@@ -18,10 +18,11 @@ defmodule RentCarsWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+    get "/categories", CategoryController, :home
   end
 
   # Other scopes may use custom stacks.
-  scope "/api", RentCarsWeb.Api do
+  scope "/api", RentCarsWeb.Api, as: :api do
     pipe_through :api
 
     get "/categories", CategoryController, :index

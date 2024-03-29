@@ -1,0 +1,12 @@
+<div :for={{_key, category} <- @categories}>
+  <h2>
+    testing
+  </h2>
+   <%= inspect(category) %>
+</div>
+ <%= inspect(@categories) %>
+<%= for {_key, category} <- @categories do %>
+  <h2>
+    testing <%= category %>
+  </h2>
+<% end %>
