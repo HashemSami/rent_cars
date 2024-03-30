@@ -1,16 +1,16 @@
 defmodule RentCars.Categories do
+  alias __MODULE__.Category
+  alias RentCars.Repo
+
+  defstruct name: ""
+
   def list_categories() do
-    [
-      %{
-        "description" => "pumpkin 123",
-        "id" => "123123",
-        "name" => "SPORT"
-      },
-      %{
-        "description" => "pumpkin 123sss",
-        "id" => "123123",
-        "name" => "SPORT"
-      }
-    ]
+    Repo.all(Category)
+  end
+
+  def create_category(attrs) do
+    attrs
+    |> Category.changeset()
+    |> Repo.insert()
   end
 end

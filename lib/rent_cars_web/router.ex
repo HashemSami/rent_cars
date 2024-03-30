@@ -26,6 +26,8 @@ defmodule RentCarsWeb.Router do
     pipe_through :api
 
     get "/categories", CategoryController, :index
+    post "/categories", CategoryController, :create
+    get "/categories/:id", CategoryController, :show
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
