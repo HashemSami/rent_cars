@@ -3,7 +3,7 @@ defmodule RentCars.Categories.Category do
   import Ecto.Changeset
 
   @fields ~w/name description/a
-  @derive {Jason.Encoder, only: @fields}
+  @derive {Jason.Encoder, only: @fields ++ [:id]}
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "categories" do

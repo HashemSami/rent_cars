@@ -12,7 +12,11 @@ defmodule RentCarsWeb.Api.CategoryController do
   def create(conn, %{"category" => attrs}) do
     case Categories.create_category(attrs) do
       {:error, _msg} = err ->
-        err
+        conn
+        |> put_status(:not_found)
+        |> json(%{
+          data: err
+        })
 
       {:ok, category} ->
         conn
@@ -24,6 +28,16 @@ defmodule RentCarsWeb.Api.CategoryController do
   end
 
   def show(conn, params) do
-    IO.inspect(conn)
+    case Categories.get_category(params) do
+      nil ->
+        "error"
+
+      category ->
+        conn
+        # |> put_status(:created)
+        |> json(%{
+          data: category
+        })
+    end
   end
 end
