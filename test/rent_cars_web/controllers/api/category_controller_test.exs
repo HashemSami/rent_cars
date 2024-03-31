@@ -3,7 +3,7 @@ defmodule RentCarsWeb.Api.CategoryControllerTest do
   alias RentCarsWeb.Router.Helpers
 
   test "List all categories", %{conn: conn} do
-    conn = get(conn, Helpers.api_category_path(conn, :index))
+    conn = get(conn, ~p"/api/categories")
 
     assert json_response(conn, 200)["data"] == []
   end
@@ -17,7 +17,7 @@ defmodule RentCarsWeb.Api.CategoryControllerTest do
   test "Create category when the data is invalid", %{conn: conn} do
     attrs = %{description: "category desc"}
     conn = post(conn, Helpers.api_category_path(conn, :create, category: attrs))
-    assert %{"name" => "HASH"} = json_response(conn, 201)["data"]
+    assert %{"name" => ["can't be blank"]} = json_response(conn, 422)["errors"]
   end
 
   test "Get a category with id", %{conn: conn} do
