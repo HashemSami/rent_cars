@@ -16,7 +16,8 @@ defmodule RentCars.MixProject do
         "coveralls.detail": :test,
         "coveralls.post": :test,
         "coveralls.html": :test,
-        "coveralls.cobertura": :test
+        "coveralls.cobertura": :test,
+        "test.watch": :test
       ]
     ]
   end

@@ -12,7 +12,9 @@ config :rent_cars, RentCars.Repo,
   database: "rent_cars_test#{System.get_env("MIX_TEST_PARTITION")}",
   port: String.to_integer(System.get_env("DB_PORT") || "5432"),
   pool: Ecto.Adapters.SQL.Sandbox,
-  pool_size: 10
+  pool_size: 10,
+  queue_target: 5000,
+  queue_interval: 5000
 
 # We don't run a server during test. If one is required,
 # you can enable the server option below.

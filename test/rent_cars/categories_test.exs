@@ -31,4 +31,33 @@ defmodule RentCars.CategoriesTest do
     assert "can't be blank" in errors_on(changeset).description
     assert %{description: ["can't be blank"]} = errors_on(changeset)
   end
+
+  test "get_category/1 by id" do
+    attrs = %{description: "category desc", name: "HASH"}
+
+    {:ok, category} = Categories.create_category(attrs)
+
+    assert Categories.get_category!(%{"id" => category.id}) == category
+  end
+
+  test "update_category/2 by id" do
+    attrs = %{description: "category desc", name: "HASH"}
+
+    {:ok, category} = Categories.create_category(attrs)
+
+    {:ok, category_updated} = Categories.update_category(category, %{name: "SUV"})
+
+    assert category_updated.name == "SUV"
+  end
+
+  test "delete_category/1 by id" do
+    attrs = %{description: "category desc", name: "HASH"}
+
+    {:ok, category} = Categories.create_category(attrs)
+
+    {:ok, %Category{} = category_deleted} = Categories.delete_category(category)
+
+    assert category.id == category_deleted.id
+    assert_raise Ecto.NoResultsError, fn -> Categories.get_category!(%{"id" => category.id}) end
+  end
 end

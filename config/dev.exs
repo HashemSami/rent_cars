@@ -9,7 +9,9 @@ config :rent_cars, RentCars.Repo,
   port: String.to_integer(System.get_env("DB_PORT") || "5432"),
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
-  pool_size: 10
+  pool_size: 10,
+  queue_target: 5000,
+  queue_interval: 5000
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
