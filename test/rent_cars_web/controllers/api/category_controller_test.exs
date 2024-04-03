@@ -30,8 +30,8 @@ defmodule RentCarsWeb.Api.CategoryControllerTest do
 
     conn = get(conn, ~p"/api/categories/#{id}")
 
-    category = json_response(conn, 200)["data"]
-    IO.inspect(category)
+    # category = json_response(conn, 200)["data"]
+    # IO.inspect(category)
 
     name = String.upcase(attrs.name)
     assert %{"name" => ^name} = json_response(conn, 200)["data"]

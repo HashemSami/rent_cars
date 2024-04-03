@@ -6,11 +6,11 @@ import Config
 # to provide built-in test partitioning in CI environment.
 # Run `mix help test` for more information.
 config :rent_cars, RentCars.Repo,
-  username: System.get_env("DB_USR", "postgres"),
-  password: System.get_env("DB_PASS", "postgres"),
-  hostname: System.get_env("DB_HOST", "localhost"),
-  database: "rent_cars_test#{System.get_env("MIX_TEST_PARTITION")}",
-  port: String.to_integer(System.get_env("DB_PORT") || "5432"),
+  username: "postgres",
+  password: "postgres",
+  hostname: "localhost",
+  database: "rent_cars_test",
+  port: String.to_integer("5432"),
   pool: Ecto.Adapters.SQL.Sandbox,
   pool_size: 10,
   queue_target: 5000,
@@ -34,3 +34,7 @@ config :logger, level: :warning
 
 # Initialize plugs at runtime for faster test compilation
 config :phoenix, :plug_init_mode, :runtime
+
+config :argon2_elixir,
+  t_cost: 1,
+  m_cost: 8

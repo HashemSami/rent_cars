@@ -20,6 +20,8 @@ defmodule RentCars.Repo.Migrations.CreateUser do
       timestamps()
     end
 
-    create unique_index(:users, [:drive_license, :email, :user_name])
+    create unique_index(:users, [:drive_license, :email, :user_name],
+             name: :users_drive_license_email_user_name_index
+           )
   end
 end
