@@ -66,7 +66,7 @@ defmodule RentCars.MixProject do
       {:sobelow, "~> 0.13", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
       {:mix_test_watch, "~> 1.0", only: [:dev, :test], runtime: false},
-      {:argon2_elixir, "~> 4.0"}
+      # {:argon2_elixir, "~> 4.0"}
     ]
   end
 
@@ -76,6 +76,7 @@ defmodule RentCars.MixProject do
   #     $ mix setup
   #
   # See the documentation for `Mix` for more info on aliases.
+  # "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
   defp aliases do
     [
       setup: ["deps.get", "ecto.setup", "assets.setup", "assets.build"],
