@@ -5,7 +5,7 @@ defmodule RentCars.Accounts.User do
   @fields ~w/role/a
   @required_fields ~w/first_name last_name user_name password password_confirmation email drive_license/a
   @role_values ~w/USER ADMIN/a
-  # @derive {Jason.Encoder, only: @fields ++ [:id]}
+  @derive {Jason.Encoder, only: @fields ++ @required_fields ++ [:id]}
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "users" do
@@ -43,7 +43,7 @@ defmodule RentCars.Accounts.User do
   end
 
   defp hash_password(%{valid?: true, changes: %{password: password}} = changeset) do
-    change(changeset, Argon2.add_hash(password))
+    change(changeset, password: "Argon2.add_hash(#{password})")
     changeset
   end
 
