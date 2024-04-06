@@ -25,7 +25,8 @@ defmodule RentCarsWeb.Router do
   scope "/api", RentCarsWeb.Api, as: :api do
     pipe_through :api
 
-    resources "/accounts", AccountController
+    post "/users", UserController, :create
+    get "/users/:id", UserController, :show
     get "/categories", CategoryController, :index
     post "/categories", CategoryController, :create
     get "/categories/:id", CategoryController, :show
@@ -33,6 +34,7 @@ defmodule RentCarsWeb.Router do
     delete "/categories/:id", CategoryController, :delete
   end
 
+  # coveralls-ignore-start
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:rent_cars, :dev_routes) do
     # If you want to use the LiveDashboard in production, you should put
@@ -49,4 +51,6 @@ defmodule RentCarsWeb.Router do
       forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
   end
+
+  # coveralls-ignore-stop
 end
