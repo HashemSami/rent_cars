@@ -19,7 +19,8 @@ defmodule RentCars.Sessions do
 
   defp validate_password(user, password) do
     # verified = Argon2.verify_pass(password, user.pass)
-    verified = password == "Hash password"
+    # verified = password == "Hash password"
+    verified = Pbkdf2.verify_pass(password, user.password_hash)
 
     if verified do
       token = Tokenr.generate_auth_token(user)

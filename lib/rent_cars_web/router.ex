@@ -32,6 +32,8 @@ defmodule RentCarsWeb.Router do
     get "/categories/:id", CategoryController, :show
     put "/categories/:id", CategoryController, :update
     delete "/categories/:id", CategoryController, :delete
+
+    post "/session", SessionController, :create
   end
 
   # coveralls-ignore-start

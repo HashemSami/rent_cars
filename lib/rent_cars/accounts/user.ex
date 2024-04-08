@@ -51,8 +51,8 @@ defmodule RentCars.Accounts.User do
   end
 
   defp hash_password(%{valid?: true, changes: %{password: password}} = changeset) do
-    change(changeset, password_hash: "Argon2.add_hash(#{password})")
-    # changeset
+    # change(changeset, password_hash: "Argon2.add_hash(#{password})")
+    change(changeset, password_hash: Pbkdf2.hash_pwd_salt(password))
   end
 
   defp hash_password(changeset), do: changeset
