@@ -17,7 +17,7 @@ defmodule RentCarsWeb.Api.UserControllerTest do
 
       email = String.downcase(user["email"])
 
-      IO.inspect(user)
+      # IO.inspect(user)
 
       assert %{
                "id" => ^id,
