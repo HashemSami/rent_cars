@@ -1,5 +1,6 @@
 defmodule RentCars.Shared.Tokenr do
   alias Phoenix.Token
+  alias RentCars.Accounts.User
 
   @context RentCarsWeb.Endpoint
   @login_token_salt "login_user_token"
@@ -11,6 +12,7 @@ defmodule RentCars.Shared.Tokenr do
     Token.sign(@context, @login_token_salt, user)
   end
 
+  @spec verify_auth_token(binary()) :: {:error, :expired | :invalid | :missing} | {:ok, User}
   def verify_auth_token(token) do
     Token.verify(@context, @login_token_salt, token, max_age: @max_age)
   end

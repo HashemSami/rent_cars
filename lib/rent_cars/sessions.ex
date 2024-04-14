@@ -29,4 +29,8 @@ defmodule RentCars.Sessions do
       @error_invalid_credentials
     end
   end
+
+  def me(token) do
+    Tokenr.verify_auth_token(token)
+  end
 end

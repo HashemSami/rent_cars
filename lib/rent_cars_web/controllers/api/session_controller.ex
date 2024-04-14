@@ -2,6 +2,7 @@ defmodule RentCarsWeb.Api.SessionController do
   use RentCarsWeb, :controller
   alias RentCars.Sessions
   alias RentCarsWeb.SessionJson
+  alias RentCars.Sessions.SendForgotToEmail
 
   action_fallback RentCarsWeb.Api.FallbackController
 
@@ -19,5 +20,22 @@ defmodule RentCarsWeb.Api.SessionController do
         })
       )
     end
+  end
+
+  def me(conn, %{"token" => token}) do
+    # error will be handled by the FallbackController module
+    with {:ok, user} <- Sessions.me(token) do
+      session = %{user: user, token: token}
+
+      conn
+      |> json(
+        SessionJson.render("session.json", %{
+          session: session
+        })
+      )
+    end
+  end
+
+  def reset_password(conn, %{"email" => email}) do
   end
 end
