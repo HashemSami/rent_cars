@@ -1,7 +1,7 @@
 defmodule RentCarsWeb.Api.UserController do
   use RentCarsWeb, :controller
   alias RentCars.Accounts
-  alias RentCarsWeb.UserJson
+  alias RentCarsWeb.UserJSON
 
   action_fallback RentCarsWeb.Api.FallbackController
 
@@ -12,7 +12,7 @@ defmodule RentCarsWeb.Api.UserController do
       |> put_status(:created)
       |> put_resp_header("location", ~p"/api/users/#{user}")
       |> json(
-        UserJson.render("show_user.json", %{
+        UserJSON.render("show_user.json", %{
           user: user
         })
       )
@@ -24,7 +24,7 @@ defmodule RentCarsWeb.Api.UserController do
       conn
       # |> put_status(:created)
       |> json(
-        UserJson.render("show_user.json", %{
+        UserJSON.render("show_user.json", %{
           user: user
         })
       )

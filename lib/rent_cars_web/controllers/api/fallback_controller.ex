@@ -7,4 +7,10 @@ defmodule RentCarsWeb.Api.FallbackController do
     |> put_status(:unprocessable_entity)
     |> json(ErrorJSON.render("errors.json", %{changeset: changeset}))
   end
+
+  def call(conn, {:error, changeset}) do
+    conn
+    |> put_status(:unprocessable_entity)
+    |> json(%{changeset: changeset})
+  end
 end

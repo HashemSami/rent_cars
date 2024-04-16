@@ -1,11 +1,11 @@
-defmodule RentCarsWeb.SessionJson do
-  alias RentCarsWeb.UserJson
+defmodule RentCarsWeb.SessionJSON do
+  alias RentCarsWeb.UserJSON
 
   def render("session.json", %{session: session}) do
     %{
       data: %{
         token: session.token,
-        user: UserJson.render("show_user.json", %{user: session.user})
+        user: UserJSON.render("show_user.json", %{user: session.user})
       }
     }
   end

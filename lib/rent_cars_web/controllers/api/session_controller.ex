@@ -1,7 +1,7 @@
 defmodule RentCarsWeb.Api.SessionController do
   use RentCarsWeb, :controller
   alias RentCars.Sessions
-  alias RentCarsWeb.SessionJson
+  alias RentCarsWeb.SessionJSON
 
   action_fallback RentCarsWeb.Api.FallbackController
 
@@ -14,7 +14,7 @@ defmodule RentCarsWeb.Api.SessionController do
       |> put_status(:created)
       # |> put_resp_header("location", ~p"/api/users/#{user}")
       |> json(
-        SessionJson.render("session.json", %{
+        SessionJSON.render("session.json", %{
           session: session
         })
       )
@@ -28,7 +28,7 @@ defmodule RentCarsWeb.Api.SessionController do
 
       conn
       |> json(
-        SessionJson.render("session.json", %{
+        SessionJSON.render("session.json", %{
           session: session
         })
       )

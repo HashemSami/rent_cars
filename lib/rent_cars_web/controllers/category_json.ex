@@ -1,4 +1,4 @@
-defmodule RentCarsWeb.CategoryJson do
+defmodule RentCarsWeb.CategoryJSON do
   def render("category_list.json", %{list: list}) do
     %{
       data: list
