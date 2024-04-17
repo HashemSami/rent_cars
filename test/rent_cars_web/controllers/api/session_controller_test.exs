@@ -19,13 +19,13 @@ defmodule RentCarsWeb.Api.SessionControllerTest do
     test "reset password", %{conn: conn, user: user} do
       conn = post(conn, ~p"/api/sessions/reset_password?#{%{email: user.email}}")
 
-      assert response(conn, 204) == user.email
+      assert response(conn, 204) == ""
     end
 
     test "reset password with error", %{conn: conn, user: user} do
       conn = post(conn, ~p"/api/sessions/reset_password?#{%{email: "lkjhasdf@hadh.com"}}")
 
-      assert json_response(conn, 204) == user.email
+      assert json_response(conn, 422)["changeset"] == "user does not exist"
     end
   end
 end

@@ -104,9 +104,10 @@ if config_env() == :prod do
   # are not using SMTP. Here is an example of the configuration:
   #
   config :rent_cars, RentCars.Mailer,
-    adapter: Swoosh.Adapters.Mailgun,
-    api_key: System.get_env("MAILTRAP_API_KEY"),
-    domain: System.get_env("MAILTRAP_DOMAIN")
+    adapter: Swoosh.Adapters.Mailtrap,
+    api_key: System.get_env("MAILTRAP_API_KEY")
+
+  # domain: System.get_env("MAILTRAP_DOMAIN")
 
   #
   # For this example you need include a HTTP client required by Swoosh API client.
