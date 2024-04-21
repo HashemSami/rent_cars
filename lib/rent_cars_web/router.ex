@@ -1,6 +1,9 @@
 defmodule RentCarsWeb.Router do
   use RentCarsWeb, :router
 
+  alias RentCarsWeb.Api.Middleware.IsAdmin
+  alias RentCarsWeb.Api.Middleware.EnsureAuthenticated
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -14,6 +17,14 @@ defmodule RentCarsWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :is_admin do
+    plug IsAdmin
+  end
+
+  pipeline :authenticated do
+    plug EnsureAuthenticated
+  end
+
   scope "/", RentCarsWeb do
     pipe_through :browser
 
@@ -25,16 +36,25 @@ defmodule RentCarsWeb.Router do
   scope "/api", RentCarsWeb.Api, as: :api do
     pipe_through :api
 
-    post "/users", UserController, :create
-    get "/users/:id", UserController, :show
-    get "/categories", CategoryController, :index
-    post "/categories", CategoryController, :create
-    get "/categories/:id", CategoryController, :show
-    put "/categories/:id", CategoryController, :update
-    delete "/categories/:id", CategoryController, :delete
+    scope "/admin", Admin, as: :admin do
+      pipe_through :is_admin
 
+      get "/categories", CategoryController, :index
+      post "/categories", CategoryController, :create
+      get "/categories/:id", CategoryController, :show
+      put "/categories/:id", CategoryController, :update
+      delete "/categories/:id", CategoryController, :delete
+    end
+
+    scope "/" do
+      pipe_through :authenticated
+      get "/users/:id", UserController, :show
+      post "/sessions/me", SessionController, :me
+    end
+
+    post "/users", UserController, :create
     post "/sessions", SessionController, :create
-    post "/sessions/me", SessionController, :me
+    post "/sessions/forgot_password", SessionController, :forgot_password
     post "/sessions/reset_password", SessionController, :reset_password
   end
 

@@ -82,4 +82,11 @@ config :phoenix, :plug_init_mode, :runtime
 config :phoenix_live_view, :debug_heex_annotations, true
 
 # Disable swoosh api client as it is only required for production adapters.
-config :swoosh, :api_client, false
+
+config :rent_cars, RentCars.Mailer,
+  adapter: Swoosh.Adapters.Mailtrap,
+  api_key: System.get_env("MAILTRAP_API_KEY"),
+  sandbox_inbox_id: System.get_env("MAILTRAP_INBOX_ID")
+
+config :swoosh, api_client: Swoosh.ApiClient.Finch, finch_name: RentCars.Finch
+# config :swoosh, :api_client, false

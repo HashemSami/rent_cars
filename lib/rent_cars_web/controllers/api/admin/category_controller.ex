@@ -1,4 +1,4 @@
-defmodule RentCarsWeb.Api.CategoryController do
+defmodule RentCarsWeb.Api.Admin.CategoryController do
   use RentCarsWeb, :controller
   alias RentCars.Categories
   alias RentCarsWeb.CategoryJSON
@@ -15,7 +15,7 @@ defmodule RentCarsWeb.Api.CategoryController do
     with {:ok, category} <- Categories.create_category(attrs) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", ~p"/api/categories/#{category}")
+      |> put_resp_header("location", ~p"/api/admin/categories/#{category}")
       |> json(CategoryJSON.render("show_category.json", %{category: category}))
     end
   end

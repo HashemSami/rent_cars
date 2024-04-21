@@ -4,6 +4,7 @@ defmodule RentCars.Mail.ForgotPasswordEmail do
   alias RentCars.Mailer
 
   import Phoenix.Component
+  import Swoosh.Email
 
   defp email_layout(assigns) do
     ~H"""
@@ -37,7 +38,7 @@ defmodule RentCars.Mail.ForgotPasswordEmail do
       <h1>Hey there <%= @first_name %>!</h1>
       
       <p>Please use this link to sign in to MyApp:</p>
-       <a href={@url}><%= @url %></a>
+       <a href={@url}>Reset Password</a>
       <p>If you didn't request this email, feel free to ignore this.</p>
     </.email_layout>
     """
@@ -57,12 +58,11 @@ defmodule RentCars.Mail.ForgotPasswordEmail do
       html_body: html,
       text_body: text
     )
-
-    # with {:ok, _metadata} <- Mailer.deliver(email) do
-    #   {:ok, email}
-    # end
+    |> put_provider_option(:category, "welcome")
   end
 
+  # 2804947
+  @spec deliver(any(), any()) :: Task.t()
   def deliver(user, token) do
     Task.async(fn ->
       case Mailer.deliver(create_email(user, token)) do

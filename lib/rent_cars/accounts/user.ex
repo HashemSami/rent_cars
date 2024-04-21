@@ -4,8 +4,11 @@ defmodule RentCars.Accounts.User do
 
   @fields ~w/role/a
   @required_fields ~w/first_name last_name user_name password password_confirmation email drive_license/a
+
+  @json_fields ~w/first_name last_name user_name email drive_license/a
+
   @role_values ~w/USER ADMIN/a
-  @derive {Jason.Encoder, only: @fields ++ @required_fields ++ [:id]}
+  @derive {Jason.Encoder, only: @json_fields}
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "users" do
@@ -22,32 +25,33 @@ defmodule RentCars.Accounts.User do
     timestamps()
   end
 
-  def changeset(category, attrs) do
-    category
+  def changeset(user, attrs) do
+    user
     |> cast(attrs, @fields ++ @required_fields)
     |> validate_required(@required_fields)
     |> unique_constraint([:drive_license],
-      name: :users_drive_license_email_user_name_index,
-      match: :suffix
+      name: :users_drive_license_index
     )
     |> unique_constraint([:email],
-      name: :users_drive_license_email_user_name_index,
-      match: :suffix
+      name: :users_email_index
     )
     |> unique_constraint([:user_name],
-      name: :users_drive_license_email_user_name_index,
-      match: :suffix
+      name: :users_user_name_index
     )
     |> validate_format(:email, ~r/@/, message: "please type a valid email")
     |> update_change(:email, &String.downcase/1)
     |> validate_length(:password, min: 6, max: 50)
     |> validate_confirmation(:password)
-    |> update_change(:role, &String.upcase/1)
+    # |> update_change(:role, &String.upcase/1)
     |> hash_password()
   end
 
   def changeset(attrs) do
     changeset(%__MODULE__{}, attrs)
+  end
+
+  def update_user(user, params) do
+    changeset(user, params)
   end
 
   defp hash_password(%{valid?: true, changes: %{password: password}} = changeset) do

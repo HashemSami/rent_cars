@@ -41,7 +41,7 @@ defmodule RentCars.AccountsTest do
 
       assert {:ok, _user} = Accounts.create_user(valid_attrs)
       assert {:error, changeset} = Accounts.create_user(valid_attrs)
-      assert "has already been taken" in errors_on(changeset).user_name
+      assert "has already been taken" in errors_on(changeset).drive_license
     end
 
     test "create_user/1 with invalid email", %{user_attrs: user_attrs} do

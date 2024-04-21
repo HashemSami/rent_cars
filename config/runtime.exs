@@ -105,7 +105,8 @@ if config_env() == :prod do
   #
   config :rent_cars, RentCars.Mailer,
     adapter: Swoosh.Adapters.Mailtrap,
-    api_key: System.get_env("MAILTRAP_API_KEY")
+    api_key: System.get_env("MAILTRAP_API_KEY"),
+    sandbox_inbox_id: System.get_env("MAILTRAP_INBOX_ID")
 
   # domain: System.get_env("MAILTRAP_DOMAIN")
 
@@ -113,7 +114,7 @@ if config_env() == :prod do
   # For this example you need include a HTTP client required by Swoosh API client.
   # Swoosh supports Hackney and Finch out of the box:
   #
-  config :swoosh, :api_client, Swoosh.ApiClient.Finch
+  config :swoosh, api_client: Swoosh.ApiClient.Finch, finch_name: RentCars.Finch
   #
   # See https://hexdocs.pm/swoosh/Swoosh.html#module-installation for details.
 end
