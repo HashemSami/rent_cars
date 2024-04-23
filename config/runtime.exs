@@ -105,8 +105,7 @@ if config_env() == :prod do
   #
   config :rent_cars, RentCars.Mailer,
     adapter: Swoosh.Adapters.Mailtrap,
-    api_key: System.get_env("MAILTRAP_API_KEY"),
-    sandbox_inbox_id: System.get_env("MAILTRAP_INBOX_ID")
+    api_key: System.get_env("MAILTRAP_API_KEY")
 
   # domain: System.get_env("MAILTRAP_DOMAIN")
 

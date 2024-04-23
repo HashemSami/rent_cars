@@ -1,4 +1,4 @@
-defmodule RentCarsWeb.UserJSON do
+defmodule RentCarsWeb.Api.UserJSON do
   def render("show_user.json", %{user: user}) do
     %{
       data: %{

@@ -1,5 +1,5 @@
-defmodule RentCarsWeb.SessionJSON do
-  alias RentCarsWeb.UserJSON
+defmodule RentCarsWeb.Api.SessionJSON do
+  alias RentCarsWeb.Api.UserJSON
 
   def render("session.json", %{session: session}) do
     %{
