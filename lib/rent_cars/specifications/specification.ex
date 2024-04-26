@@ -4,6 +4,8 @@ defmodule RentCars.Specifications.Specification do
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
+  @derive {Jason.Encoder, only: [:name, :description]}
+
   schema "specifications" do
     field :name, :string
     field :description, :string

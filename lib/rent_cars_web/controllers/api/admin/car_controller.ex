@@ -6,17 +6,24 @@ defmodule RentCarsWeb.Api.Admin.CarController do
 
   def create(conn, %{"car" => attrs}) do
     # error will be handled by the FallbackController module
+    attrs =
+      attrs
+      |> Map.update(
+        "specifications",
+        [],
+        &(Enum.sort_by(&1, fn {k, _} -> k end) |> Enum.map(fn {_, v} -> v end))
+      )
 
     with {:ok, car} <- Cars.create(attrs) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", ~p"/api/admin/categories/#{car}")
+      # |> put_resp_header("location", ~p"/api/admin/cars/#{car}")
       |> render("show.json", %{car: car})
     end
   end
 
-  def show(conn, params) do
-    with car <- Cars.get_car!(params) do
+  def show(conn, %{"id" => id}) do
+    with car <- Cars.get_car!(id) do
       conn
       # |> put_status(:created)
       |> render("show.json", %{car: car})

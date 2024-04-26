@@ -9,7 +9,9 @@ defmodule RentCars.Cars.Car do
   @foreign_key_type :binary_id
 
   @fields ~W/available brand daily_rate description fine_amount
-  license_plate name category_id/a
+  license_plate name category_id /a
+
+  @derive {Jason.Encoder, only: @fields ++ [:id, :specifications]}
 
   schema "cars" do
     field :name, :string

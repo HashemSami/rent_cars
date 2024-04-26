@@ -46,6 +46,8 @@ defmodule RentCarsWeb.Router do
       delete "/categories/:id", CategoryController, :delete
 
       post "/cars", CarController, :create
+      get "/cars/:id", CarController, :show
+
       resources "/specifications", SpecificationController
     end
 
