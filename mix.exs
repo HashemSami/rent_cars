@@ -87,7 +87,8 @@ defmodule RentCars.MixProject do
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test --color"],
       "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
       "assets.build": ["tailwind default", "esbuild default"],
-      "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"]
+      "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"],
+      "test.reset": ["ecto.drop", "ecto.create", "ecto.migrate"]
     ]
   end
 end
