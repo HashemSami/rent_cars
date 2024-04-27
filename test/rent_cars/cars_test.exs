@@ -47,7 +47,7 @@ defmodule RentCars.CarsTest do
       name: "Lancer 2023"
     }
 
-    assert {:ok, car_updated} = Cars.update(car.id, payload)
+    assert {:ok, car_updated} = Cars.update(car, payload)
     assert car_updated.name == payload.name
   end
 
@@ -58,7 +58,7 @@ defmodule RentCars.CarsTest do
       license_plate: "update license_plate"
     }
 
-    assert {:error, changeset} = Cars.update(car.id, payload)
+    assert {:error, changeset} = Cars.update(car, payload)
     assert "you can't update license_plate" in errors_on(changeset).license_plate
   end
 end

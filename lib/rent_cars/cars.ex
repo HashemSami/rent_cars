@@ -16,9 +16,8 @@ defmodule RentCars.Cars do
     |> Repo.insert()
   end
 
-  def update(carId, attrs) do
-    carId
-    |> get_car!()
+  def update(car, attrs) do
+    car
     |> Car.update_changeset(attrs)
     |> Repo.update()
   end

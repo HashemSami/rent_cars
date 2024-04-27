@@ -18,7 +18,7 @@ defmodule RentCarsWeb.Api.Admin.CarController do
       conn
       |> put_status(:created)
       # |> put_resp_header("location", ~p"/api/admin/cars/#{car}")
-      |> render("show.json", %{car: car})
+      |> render(:show, car: car)
     end
   end
 
@@ -26,7 +26,17 @@ defmodule RentCarsWeb.Api.Admin.CarController do
     with car <- Cars.get_car!(id) do
       conn
       # |> put_status(:created)
-      |> render("show.json", %{car: car})
+      |> render(:show, car: car)
+    end
+  end
+
+  def update(conn, %{"id" => id, "attrs" => attrs}) do
+    car = Cars.get_car!(id)
+
+    with {:ok, car} <- Cars.update(car, attrs) do
+      conn
+      # |> put_status(:created)
+      |> render(:show, car: car)
     end
   end
 end

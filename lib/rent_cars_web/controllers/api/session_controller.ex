@@ -2,7 +2,7 @@ defmodule RentCarsWeb.Api.SessionController do
   use RentCarsWeb, :controller
   alias RentCars.Sessions
 
-  action_fallback RentCarsWeb.Api.FallbackController
+  action_fallback RentCarsWeb.FallbackController
 
   def create(conn, %{"email" => email, "password" => password}) do
     # error will be handled by the FallbackController module
@@ -12,9 +12,7 @@ defmodule RentCarsWeb.Api.SessionController do
       conn
       |> put_status(:created)
       # |> put_resp_header("location", ~p"/api/users/#{user}")
-      |> render("session.json", %{
-        session: session
-      })
+      |> render(:show, session: session)
     end
   end
 
@@ -24,9 +22,7 @@ defmodule RentCarsWeb.Api.SessionController do
       session = %{user: user, token: token}
 
       conn
-      |> render("session.json", %{
-        session: session
-      })
+      |> render(:show, session: session)
     end
   end
 
@@ -44,9 +40,7 @@ defmodule RentCarsWeb.Api.SessionController do
       session = %{user: user, token: nil}
 
       conn
-      |> render("session.json", %{
-        session: session
-      })
+      |> render(:show, session: session)
     end
   end
 end

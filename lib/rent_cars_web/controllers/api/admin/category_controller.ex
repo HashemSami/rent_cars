@@ -2,11 +2,11 @@ defmodule RentCarsWeb.Api.Admin.CategoryController do
   use RentCarsWeb, :controller
   alias RentCars.Categories
 
-  action_fallback RentCarsWeb.Api.FallbackController
+  action_fallback RentCarsWeb.FallbackController
 
   def index(conn, _params) do
     conn
-    |> render("category_list.json", %{list: Categories.list_categories()})
+    |> render(:index, categories: Categories.list_categories())
   end
 
   def create(conn, %{"category" => attrs}) do
@@ -15,7 +15,7 @@ defmodule RentCarsWeb.Api.Admin.CategoryController do
       conn
       |> put_status(:created)
       |> put_resp_header("location", ~p"/api/admin/categories/#{category}")
-      |> render("show_category.json", %{category: category})
+      |> render(:show, category: category)
     end
   end
 
@@ -23,17 +23,17 @@ defmodule RentCarsWeb.Api.Admin.CategoryController do
     with category <- Categories.get_category!(params) do
       conn
       # |> put_status(:created)
-      |> render("show_category.json", %{category: category})
+      |> render(:show, category: category)
     end
   end
 
-  def update(conn, %{"id" => id, "category" => category_params}) do
+  def update(conn, %{"id" => id, "attrs" => category_params}) do
     category = Categories.get_category!(%{"id" => id})
 
     with {:ok, category} <- Categories.update_category(category, category_params) do
       conn
       # |> put_status(:updated)
-      |> render("show_category.json", %{category: category})
+      |> render(:show, category: category)
     end
   end
 
@@ -43,7 +43,7 @@ defmodule RentCarsWeb.Api.Admin.CategoryController do
     with {:ok, category} <- Categories.delete_category(category) do
       conn
       |> put_status(:no_content)
-      |> render("show_category.json", %{category: category})
+      |> render(:show, category: category)
     end
   end
 end

@@ -2,7 +2,7 @@ defmodule RentCarsWeb.Api.UserController do
   use RentCarsWeb, :controller
   alias RentCars.Accounts
 
-  action_fallback RentCarsWeb.Api.FallbackController
+  action_fallback RentCarsWeb.FallbackController
 
   def create(conn, %{"user" => attrs}) do
     # error will be handled by the FallbackController module
@@ -10,9 +10,7 @@ defmodule RentCarsWeb.Api.UserController do
       conn
       |> put_status(:created)
       |> put_resp_header("location", ~p"/api/users/#{user}")
-      |> render("show_user.json", %{
-        user: user
-      })
+      |> render(:show, user: user)
     end
   end
 
@@ -20,9 +18,7 @@ defmodule RentCarsWeb.Api.UserController do
     with user <- Accounts.get_user!(id) do
       conn
       # |> put_status(:created)
-      |> render("show_user.json", %{
-        user: user
-      })
+      |> render(:show, user: user)
     end
   end
 end

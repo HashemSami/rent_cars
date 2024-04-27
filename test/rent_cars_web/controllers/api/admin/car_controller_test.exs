@@ -38,5 +38,19 @@ defmodule RentCarsWeb.Api.Admin.CarControllerTest do
       name = payload.name
       assert %{"name" => ^name} = json_response(conn, 200)["data"]
     end
+
+    test "update cars when data is valid", %{conn: conn} do
+      car = car_fixture()
+
+      payload = %{name: "Lancer"}
+
+      conn = put(conn, ~p"/api/admin/cars/#{car.id}?#{%{attrs: payload}}")
+      assert %{"id" => id} = json_response(conn, 200)["data"]
+
+      # IO.inspect(json_response(conn, 201))
+      conn = get(conn, ~p"/api/admin/cars/#{id}")
+      name = payload.name
+      assert %{"name" => ^name} = json_response(conn, 200)["data"]
+    end
   end
 end

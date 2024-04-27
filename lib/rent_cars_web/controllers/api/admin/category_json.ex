@@ -1,13 +1,22 @@
 defmodule RentCarsWeb.Api.Admin.CategoryJSON do
-  def render("category_list.json", %{list: list}) do
-    %{
-      data: list
-    }
+  alias RentCars.Categories.Category
+
+  def index(%{categories: categories}) do
+    %{data: for(category <- categories, do: data(category))}
   end
 
-  def render("show_category.json", %{category: category}) do
+  @doc """
+  Renders a single specification.
+  """
+  def show(%{category: category}) do
+    %{data: data(category)}
+  end
+
+  defp data(%Category{} = category) do
     %{
-      data: category
+      id: category.id,
+      name: category.name,
+      description: category.description
     }
   end
 end

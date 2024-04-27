@@ -21,4 +21,10 @@ defmodule RentCarsWeb.FallbackController do
     |> put_view(html: RentCarsWeb.ErrorHTML, json: RentCarsWeb.ErrorJSON)
     |> render(:"404")
   end
+
+  def call(conn, {:error, message}) do
+    conn
+    |> put_status(:bad_request)
+    |> json(%{message: message})
+  end
 end
