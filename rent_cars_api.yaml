@@ -1,0 +1,619 @@
+openapi: "3.0.0"
+info:
+  version: "1.0.0"
+  title: "rent_cars_api"
+  description: Rent cars
+  contact:
+    name: "Rent Cars App"
+    url: "www.rentcars.com"
+    email: "support@rentcars.com"
+
+servers:
+  - url: http://localhost:4000/api
+    description: Development server
+  - url: https://staging.gigantic-server.com/v1
+    description: Staging server
+
+tags:
+  - name: admin
+    description: admin routes
+
+  - name: car
+    description: Everything about your Cars
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+
+  - name: user
+    description: Operations about user
+
+  - name: sission
+    description: sessions related api
+
+paths:
+  /users:
+    post:
+      operationId: "users/post"
+      tags:
+        - user
+      summary: "Create a user in the database"
+      description: "Create a user in the database"
+      responses:
+        "201":
+          description: seccuss
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: "#/components/schemas/user"
+              examples:
+                user-example:
+                  value:
+                    data:
+                      first_name: "Hash"
+                      last_name: "Sami"
+                      user_name: "Hasheeeem"
+                      email: "HAsh@hash.com"
+                      drive_license: "I dont know"
+                      role: "ADMIN"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  $ref: "#/components/schemas/user-attrs"
+            examples:
+              body-example:
+                description: "request body example"
+                value:
+                  user:
+                    first_name: "HASH"
+                    last_name: "Sami"
+                    user_name: "Abu al hesh"
+                    email: "hash@hash.com"
+                    drive_license: "drive"
+                    password: "hashhash"
+                    password_confirmation: "hashhash"
+
+  /users/{id}:
+    parameters:
+      - name: id
+        description: User id
+        in: path
+        required: true
+        schema:
+          type: string
+
+    get:
+      operationId: "users/id/get"
+      tags:
+        - user
+      summary: "Getting a user by id"
+      description: "Getting a user by id"
+      responses:
+        "200":
+          description: seccuss
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/user"
+              examples:
+                user-example:
+                  value:
+                    data:
+                      first_name: "Hash"
+                      last_name: "Sami"
+                      user_name: "Hasheeeem"
+                      email: "HAsh@hash.com"
+                      drive_license: "I dont know"
+                      role: "ADMIN"
+
+  /sessions/forgot_password:
+    post:
+      operationId: "sessions/forgot_password/post"
+      tags:
+        - sission
+      summary: "Send reset password to email"
+      description: "Send reset password to email"
+      responses:
+        "204":
+          description: seccuss
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+            examples:
+              body-example:
+                description: "request body example"
+                value:
+                  email: "email@hash"
+
+  /sessions/reset_password:
+    post:
+      operationId: "sessions/reset_password/post"
+      tags:
+        - sission
+      summary: "Send password and reset in the database"
+      description: "Send password and reset in the database"
+      responses:
+        "204":
+          description: seccuss
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+            examples:
+              body-example:
+                description: "request body example"
+                value:
+                  password: "new_password"
+
+  /admin/categories:
+    get:
+      operationId: "admin/categories/get"
+      tags:
+        - admin
+        - car
+      summary: "Get all cars categories"
+      description: "Get all cars categories"
+      responses:
+        "200":
+          description: seccuss
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/categories"
+              examples:
+                example-1:
+                  description: "exa"
+                  value:
+                    data:
+                      - id: "8ca6dc81-b02c-4659-9428-1e2fba8b0451"
+                        name: "HASH"
+                        description: "desc"
+                      - id: "8ca6dc81-b02c-4659-9428-1e2fba8b0451"
+                        name: "HASH2"
+                        description: "desc2"
+
+        "404":
+          description: No spacecraft found for the provided `spacecraftId`
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/notFound"
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/badRequest"
+    post:
+      operationId: "admin/categories/post"
+      tags:
+        - admin
+        - car
+      summary: Create a new cars category
+      description: "Create a new cars category"
+      responses:
+        "201":
+          headers:
+            Content-Type:
+              $ref: "#/components/parameters/content-type"
+          description: category created
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    $ref: "#/components/schemas/category"
+              examples:
+                example-1:
+                  description: "example response"
+                  value:
+                    data:
+                      id: "8ca6dc81-b02c-4659-9428-1e2fba8b0451"
+                      name: "HASH"
+                      description: "example description"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                category:
+                  properties:
+                    name:
+                      type: string
+                    description:
+                      type: string
+              required:
+                - "category"
+            examples:
+              body-example:
+                description: "request body example"
+                value:
+                  category:
+                    name: "HASH"
+                    description: "description example"
+
+  /admin/categories/{id}:
+    parameters:
+      - name: id
+        description: Category id
+        in: path
+        required: true
+        schema:
+          type: string
+
+    get:
+      operationId: "admin/categories/id/get"
+      tags:
+        - admin
+        - car
+      summary: "Get gategory by id"
+      description: "Get gategory by id"
+      responses:
+        "200":
+          description: Successfully retieving a gategory
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    $ref: "#/components/schemas/category"
+              examples:
+                example-1:
+                  description: "example response"
+                  value:
+                    data:
+                      id: "8ca6dc81-b02c-4659-9428-1e2fba8b0451"
+                      name: "HASH"
+                      description: "example description"
+
+    put:
+      operationId: "admin/categories/put"
+      tags:
+        - admin
+        - car
+      summary: "Update a gategory by id"
+      description: "Update a gategory by id"
+      responses:
+        "200":
+          description: Successfully updating a gategory
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    $ref: "#/components/schemas/category"
+              examples:
+                example-update:
+                  description: "example response"
+                  value:
+                    data:
+                      id: "8ca6dc81-b02c-4659-9428-1e2fba8b0451"
+                      name: "HASH"
+                      description: "example description"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+            examples:
+              body-example:
+                description: "request body example"
+                value:
+                  category:
+                    name: "HASH"
+                    description: "description example"
+
+    delete:
+      operationId: "admin/categories/delete"
+      tags:
+        - admin
+        - car
+      summary: "Delete a gategory by id"
+      description: "Delete a gategory by id"
+      responses:
+        "204":
+          description: Successfully deleting a gategory
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    $ref: "#/components/schemas/category"
+              examples:
+                example-update:
+                  description: "example response"
+                  value:
+                    data:
+                      id: "8ca6dc81-b02c-4659-9428-1e2fba8b0451"
+                      name: "HASH"
+                      description: "example description"
+  /admin/cars:
+    post:
+      operationId: "admin/cars/post"
+      tags:
+        - admin
+        - car
+      summary: "Creating new car"
+      description: "Creating new car"
+      responses:
+        "201":
+          description: Successfully creating a new car
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    $ref: "#/components/schemas/car"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                brand:
+                  type: string
+                daily_rate:
+                  type: integer
+                license_plate:
+                  type: string
+                fine_amount:
+                  type: integer
+                category_id:
+                  type: string
+                specifications:
+                  type: array
+                  items:
+                    properties:
+                      name:
+                        type: string
+                      description:
+                        type: string
+            examples:
+              example-create-car:
+                description: car object example
+                value:
+                  data:
+                    name: "Lance"
+                    description: "some description"
+                    brand: "mitsu"
+                    daily_rate: 999
+                    license_plate: "some lice"
+                    fine_amount: 887
+                    category_id: "uuid"
+                    specifications:
+                      "1":
+                        name: "name example"
+                        description: "specification description"
+  /admin/cars/{id}:
+    parameters:
+      - name: id
+        description: Car id
+        in: path
+        required: true
+        schema:
+          type: string
+
+    get:
+      operationId: "admin/cars/id/get"
+      tags:
+        - admin
+        - car
+      summary: "Getting a car by id"
+      description: "Getting a car by id"
+      responses:
+        "200":
+          description: Successfully getting a car object
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    $ref: "#/components/schemas/car"
+
+    put:
+      operationId: "admin/cars/id/put"
+      tags:
+        - admin
+        - car
+      summary: "Updating a car by id"
+      description: "Updating a car by id"
+      responses:
+        "200":
+          description: Successfully updating a car data
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/car"
+              examples:
+                example-update-car:
+                  value:
+                    name: "updated data"
+
+components:
+  schemas:
+    user:
+      description: User object
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        first_name:
+          type: string
+        last_name:
+          type: string
+        user_name:
+          type: string
+        email:
+          type: string
+          format: email
+        drive_license:
+          type: string
+        role:
+          type: string
+          enum:
+            - "USER"
+            - "ADMIN"
+
+    user-attrs:
+      description: attrs for creating a user
+      type: object
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        user_name:
+          type: string
+        email:
+          type: string
+          format: email
+        drive_license:
+          type: string
+        password:
+          type: string
+        password_confirmation:
+          type: string
+
+    category:
+      description: Car category
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          format: uuid
+        name:
+          type: string
+        #   enum:
+        #     - capsule
+        #     - probe
+        #     - satellite
+        #     - spaceplane
+        #     - station
+        description:
+          type: string
+
+    categories:
+      description: List of cars categories
+      title: categories
+      type: array
+      items:
+        $ref: "#/components/schemas/category"
+    car:
+      description: car object
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        brand:
+          type: string
+        daily_rate:
+          type: integer
+        fine_amount:
+          type: integer
+        license_plate:
+          type: string
+        specifications:
+          type: array
+          items:
+            properties:
+              id:
+                type: string
+                format: uuid
+              name:
+                type: string
+              description:
+                type: string
+
+    notFound:
+      title: Not Found
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+    badRequest:
+      title: Bad Request
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+    Error:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          description: A human readable error message
+          type: string
+
+  parameters:
+    content-length:
+      description: ""
+      in: header
+      name: content-length
+      required: true
+      schema:
+        type: integer
+
+    cache-control:
+      in: header
+      name: cache-control
+      schema:
+        type: string
+
+    content-type:
+      in: header
+      name: Content-Type
+      schema:
+        type: string
+
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+
+security:
+  - ApiKey: []
